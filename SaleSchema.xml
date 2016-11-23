@@ -1,0 +1,42 @@
+<Schema name="SaleSchema" measuresCaption="SaleSchema">
+  <Cube name="SalesCube" visible="true" cache="true" enabled="true">
+    <Table name="sale">
+    </Table>
+    <Dimension type="StandardDimension" visible="true" foreignKey="cusId" highCardinality="false" name="dimCustomer">
+      <Hierarchy visible="true" hasAll="true" allMemberName="allCustomer" allMemberCaption="&#25152;&#26377;&#23458;&#25143;" primaryKey="cusId">
+        <Table name="customer">
+        </Table>
+        <Level name="gender" visible="true" column="gender" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="proId" highCardinality="false" name="dimProductType">
+      <Hierarchy visible="true" hasAll="true" allMemberName="allProduct" allMemberCaption="&#25152;&#26377;&#20135;&#21697;" primaryKey="proId" primaryKeyTable="product">
+        <Join leftKey="proId" rightKey="proTypeId">
+          <Table name="product">
+          </Table>
+          <Table name="producttype">
+          </Table>
+        </Join>
+        <Level name="productId" visible="true" table="product" column="proId" nameColumn="proName" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+        <Level name="productTypeId" visible="true" table="producttype" column="proTypeId" nameColumn="proTypeName" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Measure name="salesNumber" column="number" datatype="Integer" aggregator="sum" caption="&#25968;&#37327;" visible="true">
+    </Measure>
+    <Measure name="salesAmount" datatype="Numeric" aggregator="sum" caption="&#38144;&#21806;&#24635;&#39069;" visible="true">
+      <MeasureExpression>
+        <SQL dialect="generic">
+          <![CDATA[(unitPrice*number)]]>
+        </SQL>
+      </MeasureExpression>
+    </Measure>
+    <CalculatedMember name="avgPrice" formatString="&#65509;#,##0.00" caption="&#24179;&#22343;&#21333;&#20215;" dimension="Measures" visible="true">
+      <Formula>
+        <![CDATA[[Measures].salesAmount/[Measures].salesNumber]]>
+      </Formula>
+    </CalculatedMember>
+  </Cube>
+</Schema>
