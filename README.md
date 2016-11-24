@@ -9,6 +9,7 @@
 3. 下载Schema Workbench，并将mysql-connector-java-x.x.xx.jar复制到\schema-workbench\drivers\
 
 ## 创建schema文件
+saiku community version并不提供schema文件的制作功能。saiku enterprise edition提供对于schema文件的新建功能（但是不提供编辑）。因此选取Mondrian Schema Workbench作为制作工具。
 ![数据库conenction配置](img/db_connection.png)
 ![新建schema](img/add_schema.png)
 ![新建cube](img/add_cube.png)
